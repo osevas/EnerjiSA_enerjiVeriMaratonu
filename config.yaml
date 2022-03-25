@@ -1,0 +1,43 @@
+data_dir:
+  generation: "./generation.csv"
+  temperature: "./temperature.csv"
+
+eda:
+  plot_dir: "./plots"
+
+mode: test # train / test /eda
+run_num: 2
+
+build_data:
+  denoising: True
+  smooth_window: 24
+  columns_for_MA: ['AirTemperature','RelativeHumidity']
+  input_length: 744 # FD001: 35, FD002/FD004: 50, FD003: 40
+  label_length: 744
+  shift: 744
+  early_rul: 125 # FD001, FD003: 125, FD002, FD004: 150
+  num_test_windows: 1
+  pca_components: 0
+  columns_to_be_dropped: ['AirTemperature','RelativeHumidity'] 
+  feature_scaling: min_max # standard, min_max, standard_cluster, min_max_cluster
+  num_clusters: 1
+  train_ratio: 0.7
+  batch_size: 24
+
+model_name: "Multi_lstm_model" # CNN1D, CNN2D, LSTM, CRNN, CLSTM, Linear, Dense, Conv_model, Multi_linear_model, Multi_dense_model, Multi_conv_model
+
+build_model:
+  epochs: 30 # LSTM: 8 / CRNN1: 11 / CLSTM: 12, CRNN2: 75, Linear: 20
+  batch_size: 
+  lr: 0.0005 # 0.001
+  decay_steps: 5 # 5
+  decay_rate: 0.65 # 0.65
+  drop_out: 0.0
+
+output_files:
+  log_dir: ./output/log_dir_multi_lstm
+  history_dir: ./output/multi_lstm
+
+saved_model:
+  model_dir: ./output/multi_lstm/02/checkpoint_08-0.01.hdf5
+  pred_file: ./output/multi_lstm/02/
